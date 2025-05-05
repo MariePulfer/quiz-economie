@@ -2,11 +2,8 @@ import streamlit as st
 import streamlit.components.v1 as components
 
 st.set_page_config(page_title="Quiz Économie", page_icon="📚")
-st.title("📚 Révision - Économie : Les modes de vente")
+st.title("📚 Révision complète - Économie : Les modes de vente (25 questions)")
 
-# -------------------------------
-# Liste des 15 questions
-# -------------------------------
 questions = [
     {
         "question": "Quel type de vente permet de comparer rapidement les produits ?",
@@ -36,7 +33,7 @@ questions = [
         "question": "Quel est le principal inconvénient de la vente par internet ?",
         "options": ["On ne peut pas comparer les produits", "On ne peut pas les essayer", "Les prix sont toujours plus élevés"],
         "answer": "On ne peut pas les essayer",
-        "explanation": "L'inconvénient majeur de la vente en ligne est qu'on ne peut pas tester ou essayer le produit avant l'achat."
+        "explanation": "On ne peut pas tester ou toucher le produit avant l’achat en ligne, ce qui peut être un inconvénient pour certains produits."
     },
     {
         "question": "Que se passe-t-il si plusieurs personnes veulent le même objet aux enchères ?",
@@ -48,7 +45,7 @@ questions = [
         "question": "Quand l’acheteur reçoit-il le produit dans une vente à crédit ?",
         "options": ["Après paiement complet", "Avant de payer", "Pendant le paiement"],
         "answer": "Avant de payer",
-        "explanation": "Dans une vente à crédit, le client reçoit le bien avant d’avoir payé la totalité du prix."
+        "explanation": "Dans une vente à crédit, le client reçoit le bien tout de suite et le paie ensuite en plusieurs mensualités."
     },
     {
         "question": "Qu’est-ce qu’une vente par correspondance ?",
@@ -60,13 +57,13 @@ questions = [
         "question": "Quel est l'avantage du leasing ?",
         "options": ["Posséder le bien", "Utiliser un bien sans l’acheter", "Ne rien payer"],
         "answer": "Utiliser un bien sans l’acheter",
-        "explanation": "Le leasing permet d'utiliser un bien moyennant un loyer, sans en être propriétaire."
+        "explanation": "Le leasing permet d’utiliser un bien en payant un loyer mensuel, sans en devenir propriétaire."
     },
     {
         "question": "Quel est le risque avec une enchère inversée ?",
         "options": ["Payer trop tôt", "Manquer l’achat en attendant trop", "Ne pas avoir de facture"],
         "answer": "Manquer l’achat en attendant trop",
-        "explanation": "Dans les enchères inversées, le prix diminue mais on peut rater l'achat si quelqu'un clique avant nous."
+        "explanation": "Dans les enchères inversées, le prix diminue progressivement, mais attendre trop longtemps peut faire rater l'achat."
     },
     {
         "question": "Qu’est-ce que la vente à terme implique ?",
@@ -78,13 +75,13 @@ questions = [
         "question": "Pourquoi une vente aux enchères peut-elle avoir lieu ?",
         "options": ["Pour aider un commerçant", "Pour vendre un bien saisi ou hérité", "Pour échanger des services"],
         "answer": "Pour vendre un bien saisi ou hérité",
-        "explanation": "Les ventes aux enchères ont souvent lieu pour liquider des biens saisis ou issus d'une succession."
+        "explanation": "Les ventes aux enchères sont souvent utilisées pour liquider des biens saisis ou issus d'une succession."
     },
     {
         "question": "Qu’est-ce qu’une vente aux enchères inversée ?",
         "options": ["Le prix augmente", "On paie avant de voir le produit", "Le prix baisse jusqu’à un achat"],
         "answer": "Le prix baisse jusqu’à un achat",
-        "explanation": "Dans une enchère inversée, le prix diminue et le premier à accepter remporte le produit."
+        "explanation": "Dans une enchère inversée, le prix diminue progressivement jusqu’à ce qu’un acheteur accepte."
     },
     {
         "question": "Comment s’effectue la vente par correspondance ?",
@@ -96,10 +93,69 @@ questions = [
         "question": "Quelle est la principale caractéristique du leasing ?",
         "options": ["C’est un prêt gratuit", "C’est un paiement sans contrat", "C’est un droit d’usage sans propriété"],
         "answer": "C’est un droit d’usage sans propriété",
-        "explanation": "Le leasing est un contrat de location où le client n’est pas propriétaire du bien."
+        "explanation": "Le leasing est un contrat de location où le client paie pour utiliser un bien sans en être propriétaire."
+    },
+    {
+        "question": "Qu'est-ce qu'un acompte dans une vente à crédit ?",
+        "options": ["Une réduction de prix", "Un paiement partiel initial", "Une garantie bancaire"],
+        "answer": "Un paiement partiel initial",
+        "explanation": "Un acompte est une somme versée d'avance par l'acheteur pour réserver ou commencer le paiement du produit."
+    },
+    {
+        "question": "Pourquoi certaines entreprises proposent-elles le leasing plutôt que la vente directe ?",
+        "options": ["Pour vendre plus vite", "Pour conserver la propriété du bien", "Pour éviter les impôts"],
+        "answer": "Pour conserver la propriété du bien",
+        "explanation": "Le leasing permet à l’entreprise de garder la propriété de l’objet tout en générant des revenus réguliers par la location."
+    },
+    {
+        "question": "Quel est le rôle d'une société de leasing ?",
+        "options": ["Créer les produits", "Vendre en ligne", "Acheter les biens pour les louer à des clients"],
+        "answer": "Acheter les biens pour les louer à des clients",
+        "explanation": "Elle achète le bien et le met à disposition du client moyennant un loyer mensuel."
+    },
+    {
+        "question": "Quelle forme de vente permet souvent des achats impulsifs ?",
+        "options": ["Vente par correspondance", "Vente au comptant", "Vente par internet"],
+        "answer": "Vente par internet",
+        "explanation": "L’achat est facilité et rapide, ce qui pousse parfois à acheter sans bien réfléchir."
+    },
+    {
+        "question": "Quelle différence entre crédit et leasing ?",
+        "options": ["Le crédit est gratuit", "Le leasing implique un loyer, pas une dette", "Le crédit donne accès au bien plus tard"],
+        "answer": "Le leasing implique un loyer, pas une dette",
+        "explanation": "Le crédit est un prêt pour devenir propriétaire, le leasing est une location avec option d’achat ou non."
+    },
+    {
+        "question": "Dans quel cas parle-t-on de paiement échelonné ?",
+        "options": ["Quand on paie tout d’un coup", "Quand on paie avant de recevoir le bien", "Quand on paie en plusieurs fois sur une durée"],
+        "answer": "Quand on paie en plusieurs fois sur une durée",
+        "explanation": "Le paiement échelonné signifie que le prix total est réparti sur plusieurs paiements, souvent mensuels."
+    },
+    {
+        "question": "Quel est un avantage du paiement comptant pour le vendeur ?",
+        "options": ["Il peut livrer plus tard", "Il est certain d’être payé immédiatement", "Il peut augmenter ses prix"],
+        "answer": "Il est certain d’être payé immédiatement",
+        "explanation": "Le paiement comptant garantit au vendeur qu’il est payé sans attendre ni prendre de risque d’impayé."
+    },
+    {
+        "question": "Quel type de vente ne permet pas de tester physiquement le produit ?",
+        "options": ["Vente au marché", "Vente par internet", "Vente en magasin"],
+        "answer": "Vente par internet",
+        "explanation": "Le client ne peut pas toucher ni essayer un produit acheté en ligne avant sa réception."
+    },
+    {
+        "question": "Quel est un risque du crédit pour l'acheteur ?",
+        "options": ["Payer trop tôt", "Ne pas recevoir le bien", "S’endetter au-delà de ses moyens"],
+        "answer": "S’endetter au-delà de ses moyens",
+        "explanation": "Le crédit peut encourager à acheter au-delà de ses capacités financières, et créer un surendettement."
+    },
+    {
+        "question": "Pourquoi une entreprise ferait appel à une vente aux enchères ?",
+        "options": ["Pour obtenir un prix fixe", "Pour vendre rapidement au meilleur prix possible", "Pour prêter un objet"],
+        "answer": "Pour vendre rapidement au meilleur prix possible",
+        "explanation": "Les enchères permettent de stimuler la concurrence entre acheteurs et d’augmenter le prix de vente final."
     }
-]
-
+],
 # -------------------------------
 # Initialisation de la session
 # -------------------------------
@@ -139,12 +195,12 @@ if st.session_state.index < len(questions):
 
         st.info(f"💡 {q['explanation']}")
 
-        # Lecture automatique de l'explication
+        # 🔊 Lecture automatique avec synthèse vocale
         components.html(f"""
             <script>
                 const msg = new SpeechSynthesisUtterance("{q['explanation']}");
                 msg.lang = 'fr-FR';
-                speechSynthesis.speak(msg);
+                window.speechSynthesis.speak(msg);
             </script>
         """, height=0)
 
@@ -157,7 +213,7 @@ if st.session_state.index < len(questions):
 # Résultat final
 # -------------------------------
 else:
-    st.success(f"🎉 Bravo, tu as terminé le quiz !\nTon score : {st.session_state.score} / {len(questions)}")
+    st.success(f"🎉 Quiz terminé ! Tu as obtenu {st.session_state.score} / {len(questions)}")
     if st.button("🔁 Recommencer le quiz"):
         st.session_state.index = 0
         st.session_state.score = 0
