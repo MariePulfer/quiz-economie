@@ -5,7 +5,7 @@ st.set_page_config(page_title="Quiz Économie", page_icon="📚")
 st.title("📚 Révision - Économie : Les modes de vente")
 
 # -------------------------------
-# Données du quiz (extrait de ton cours)
+# Questions (10 questions basées sur ton cours)
 # -------------------------------
 questions = [
     {
@@ -26,11 +26,52 @@ questions = [
         "answer": "La société de leasing",
         "explanation": "Le bien est acquis par la société de leasing, qui reste propriétaire pendant toute la durée du contrat."
     },
-    # Tu peux ajouter plus de questions ici...
+    {
+        "question": "Dans la vente au comptant, quand a lieu le paiement ?",
+        "options": ["Avant la livraison", "Après la livraison", "En même temps que la livraison"],
+        "answer": "En même temps que la livraison",
+        "explanation": "Le paiement et la remise du produit ont lieu au même moment dans la vente au comptant."
+    },
+    {
+        "question": "Quel est le principal inconvénient de la vente par internet ?",
+        "options": ["On ne peut pas comparer les produits", "On ne peut pas les essayer", "Les prix sont toujours plus élevés"],
+        "answer": "On ne peut pas les essayer",
+        "explanation": "On ne peut pas tester ou toucher le produit avant de l’acheter sur internet."
+    },
+    {
+        "question": "Que se passe-t-il si plusieurs personnes veulent le même objet aux enchères ?",
+        "options": ["L'objet est vendu au prix de départ", "L'objet revient au plus offrant", "L'objet est attribué au hasard"],
+        "answer": "L'objet revient au plus offrant",
+        "explanation": "Aux enchères, l’objet est attribué à la personne qui propose le prix le plus élevé."
+    },
+    {
+        "question": "Quand l’acheteur reçoit-il le produit dans une vente à crédit ?",
+        "options": ["Après paiement complet", "Avant de payer", "Pendant le paiement"],
+        "answer": "Avant de payer",
+        "explanation": "L'acheteur reçoit l’objet immédiatement, puis le paie en plusieurs fois."
+    },
+    {
+        "question": "Qu’est-ce qu’une vente par correspondance ?",
+        "options": ["Une vente dans un magasin", "Une vente à l’oral", "Une commande à distance"],
+        "answer": "Une commande à distance",
+        "explanation": "Elle se fait via téléphone, courrier ou internet — sans contact direct avec le vendeur."
+    },
+    {
+        "question": "Quel est l'avantage du leasing ?",
+        "options": ["Posséder le bien", "Utiliser un bien sans l’acheter", "Ne rien payer"],
+        "answer": "Utiliser un bien sans l’acheter",
+        "explanation": "Le leasing permet d’utiliser un objet en échange d’un loyer mensuel, sans l’acheter."
+    },
+    {
+        "question": "Quel est le risque avec une enchère inversée ?",
+        "options": ["Payer trop tôt", "Manquer l’achat en attendant trop", "Ne pas avoir de facture"],
+        "answer": "Manquer l’achat en attendant trop",
+        "explanation": "On attend le prix le plus bas, mais on peut perdre le produit si quelqu’un l’achète avant."
+    }
 ]
 
 # -------------------------------
-# Initialisation de session
+# Session State
 # -------------------------------
 if "index" not in st.session_state:
     st.session_state.index = 0
@@ -42,27 +83,24 @@ if "selected" not in st.session_state:
     st.session_state.selected = None
 
 # -------------------------------
-# Logique principale
+# Affichage d’une question
 # -------------------------------
 if st.session_state.index < len(questions):
     q = questions[st.session_state.index]
     st.subheader(f"Question {st.session_state.index + 1} sur {len(questions)}")
 
-    # Affichage des réponses
     st.session_state.selected = st.radio(
         label=q["question"],
         options=q["options"],
         index=None,
-        key=f"radio_{st.session_state.index}"
+        key=f"q{st.session_state.index}"
     )
 
-    # Bouton de validation
     if st.button("✅ Valider ma réponse"):
         st.session_state.show_feedback = True
         if st.session_state.selected == q["answer"]:
             st.session_state.score += 1
 
-    # Affichage du résultat
     if st.session_state.show_feedback:
         if st.session_state.selected == q["answer"]:
             st.success("Bonne réponse ✅")
@@ -73,12 +111,12 @@ if st.session_state.index < len(questions):
         if st.button("➡️ Question suivante"):
             st.session_state.index += 1
             st.session_state.show_feedback = False
-            st.experimental_rerun()
-else:
-    st.success(f"🎉 Bravo, tu as terminé le quiz ! Ton score : {st.session_state.score} / {len(questions)}")
+            st.rerun()
 
-    if st.button("🔄 Recommencer"):
+else:
+    st.success(f"🎉 Bravo ! Tu as terminé le quiz.\nTon score : {st.session_state.score} / {len(questions)}")
+    if st.button("🔁 Recommencer"):
         st.session_state.index = 0
         st.session_state.score = 0
         st.session_state.show_feedback = False
-        st.experimental_rerun()
+        st.rerun()
