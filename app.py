@@ -4,7 +4,9 @@ import random
 st.set_page_config(page_title="Quiz Économie", page_icon="📚")
 st.title("📚 Révision - Économie : Les modes de vente")
 
-# Liste des questions QCM
+# -------------------------------
+# Données du quiz (extrait de ton cours)
+# -------------------------------
 questions = [
     {
         "question": "Quel type de vente permet de comparer rapidement les produits ?",
@@ -24,79 +26,59 @@ questions = [
         "answer": "La société de leasing",
         "explanation": "Le bien est acquis par la société de leasing, qui reste propriétaire pendant toute la durée du contrat."
     },
-    {
-        "question": "Dans la vente au comptant, quand a lieu le paiement ?",
-        "options": ["Avant la livraison", "Après la livraison", "En même temps que la livraison"],
-        "answer": "En même temps que la livraison",
-        "explanation": "Le paiement et la remise du produit ont lieu au même moment dans la vente au comptant."
-    },
-    {
-        "question": "Quel est le principal inconvénient de la vente par internet ?",
-        "options": ["On ne peut pas comparer les produits", "On ne peut pas les essayer", "Les prix sont toujours plus élevés"],
-        "answer": "On ne peut pas les essayer",
-        "explanation": "L'inconvénient principal est qu'on ne peut pas tester ou toucher le produit avant de l'acheter."
-    },
-    {
-        "question": "Que se passe-t-il si plusieurs personnes veulent le même objet aux enchères ?",
-        "options": ["L'objet est vendu au prix de départ", "L'objet est attribué au premier arrivé", "L'objet revient au plus offrant"],
-        "answer": "L'objet revient au plus offrant",
-        "explanation": "Aux enchères, le bien est attribué à la personne qui fait la meilleure offre."
-    },
-    {
-        "question": "Dans une vente à crédit, quand reçoit-on le produit ?",
-        "options": ["Avant le paiement complet", "Après le paiement complet", "Seulement après un acompte"],
-        "answer": "Avant le paiement complet",
-        "explanation": "L'acheteur reçoit l'objet avant d'avoir terminé de le payer, souvent en plusieurs mensualités."
-    },
-    {
-        "question": "Qu’est-ce qu’une vente par correspondance ?",
-        "options": ["Une commande effectuée en magasin", "Une vente aux enchères par téléphone", "Une commande par internet, courrier ou téléphone"],
-        "answer": "Une commande par internet, courrier ou téléphone",
-        "explanation": "La vente par correspondance se fait à distance, via téléphone, courrier ou internet."
-    },
-    {
-        "question": "Quel est l'avantage du leasing ?",
-        "options": ["Posséder le bien rapidement", "Utiliser un bien sans l’acheter", "Ne jamais rien payer"],
-        "answer": "Utiliser un bien sans l’acheter",
-        "explanation": "Le leasing permet d'utiliser un objet sans en être propriétaire, en payant des mensualités."
-    },
-    {
-        "question": "Quel est le risque avec une vente aux enchères inversées ?",
-        "options": ["Payer trop tôt", "Manquer l’enchère en attendant trop", "Ne pas connaître le vendeur"],
-        "answer": "Manquer l’enchère en attendant trop",
-        "explanation": "Le but est d’attendre le prix le plus bas, mais on risque de perdre l'objet si quelqu’un l’achète avant."
-    }
+    # Tu peux ajouter plus de questions ici...
 ]
 
-# Initialisation des variables de session
-if 'score' not in st.session_state:
+# -------------------------------
+# Initialisation de session
+# -------------------------------
+if "index" not in st.session_state:
+    st.session_state.index = 0
+if "score" not in st.session_state:
     st.session_state.score = 0
-if 'question_index' not in st.session_state:
-    st.session_state.question_index = 0
-if 'completed' not in st.session_state:
-    st.session_state.completed = False
+if "show_feedback" not in st.session_state:
+    st.session_state.show_feedback = False
+if "selected" not in st.session_state:
+    st.session_state.selected = None
 
-# Affichage de la question actuelle
-if st.session_state.question_index < len(questions):
-    q = questions[st.session_state.question_index]
-    st.subheader(f"Question {st.session_state.question_index + 1} sur {len(questions)}")
-    user_choice = st.radio(q["question"], q["options"], key=f"q{st.session_state.question_index}")
+# -------------------------------
+# Logique principale
+# -------------------------------
+if st.session_state.index < len(questions):
+    q = questions[st.session_state.index]
+    st.subheader(f"Question {st.session_state.index + 1} sur {len(questions)}")
 
+    # Affichage des réponses
+    st.session_state.selected = st.radio(
+        label=q["question"],
+        options=q["options"],
+        index=None,
+        key=f"radio_{st.session_state.index}"
+    )
+
+    # Bouton de validation
     if st.button("✅ Valider ma réponse"):
-        if user_choice == q["answer"]:
-            st.success("Bonne réponse ! ✅")
+        st.session_state.show_feedback = True
+        if st.session_state.selected == q["answer"]:
             st.session_state.score += 1
-        else:
-            st.error("Mauvaise réponse ❌")
 
+    # Affichage du résultat
+    if st.session_state.show_feedback:
+        if st.session_state.selected == q["answer"]:
+            st.success("Bonne réponse ✅")
+        else:
+            st.error(f"Mauvaise réponse ❌ La bonne réponse était : {q['answer']}")
         st.info(f"💡 {q['explanation']}")
 
         if st.button("➡️ Question suivante"):
-            st.session_state.question_index += 1
+            st.session_state.index += 1
+            st.session_state.show_feedback = False
             st.experimental_rerun()
 else:
-    st.session_state.completed = True
+    st.success(f"🎉 Bravo, tu as terminé le quiz ! Ton score : {st.session_state.score} / {len(questions)}")
 
-# Résultat final
-if st.session_state.completed:
-    st.success(f"🎉 Quiz terminé ! Ton score final : {st.session_state.score} / {len(questions)}")
+    if st.button("🔄 Recommencer"):
+        st.session_state.index = 0
+        st.session_state.score = 0
+        st.session_state.show_feedback = False
+        st.experimental_rerun()
